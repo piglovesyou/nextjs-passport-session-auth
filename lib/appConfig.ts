@@ -1,4 +1,5 @@
 import { StrategyOptions } from 'passport-github'
+require('dotenv').config()
 
 export interface AppConfig {
   isDevelopment: boolean
