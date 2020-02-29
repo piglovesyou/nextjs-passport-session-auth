@@ -4,6 +4,8 @@
   "private": true,
   "description": "Example of a Next.js application with api routes that enable passport.js authentication and cookie sessions.",
   "scripts": {
+    "lint": "eslint --ext .ts,.tsx,.js --ignore-path .gitignore .",
+    "fix": "yarn lint --fix",
     "dev": "next",
     "build": "next build",
     "start": "next start"
@@ -26,6 +28,8 @@
   },
   "devDependencies": {
     "@types/cookie-session": "^2.0.37",
+    "@types/eslint": "^6.1.8",
+    "@types/eslint-plugin-prettier": "^2.2.0",
     "@types/js-cookie": "^2.2.4",
     "@types/micro": "^7.3.3",
     "@types/node": "^12.7.5",
@@ -33,6 +37,27 @@
     "@types/passport-github": "^1.1.5",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
+    "@typescript-eslint/eslint-plugin": "^2.21.0",
+    "@typescript-eslint/parser": "^2.21.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-jest": "^23.8.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.18.3",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.8",
+    "prettier": "^1.19.1",
     "typescript": "3.6.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "yarn fix",
+      "git add --force"
+    ]
   }
 }
