@@ -1,5 +1,5 @@
-import { Strategy as GithubStrategy } from 'passport-github'
-import appConfig from '../appConfig'
+import { Strategy as GithubStrategy } from 'passport-github';
+import appConfig from '../appConfig';
 
 // STATICALLY configure the Github strategy for use by Passport.
 //
@@ -17,13 +17,13 @@ const strategy = new GithubStrategy(
     // which allows for account linking and authentication with other identity providers.
 
     // Upsert user here
-    console.log(accessToken, refreshToken, githubProfile)
+    console.log(accessToken, refreshToken, githubProfile);
 
     // see https://github.com/jaredhanson/passport-github/blob/master/lib/strategy.js#L40
     // see https://gitlab.com/andycunn/canvass/blob/f3f03859b3de66f30d7703a4c5d2f44f7c724f67/api/app.js#L118
     // for an example
-    cb(null, githubProfile)
-  }
-)
+    cb(null, githubProfile);
+  },
+);
 
-export default strategy
+export default strategy;

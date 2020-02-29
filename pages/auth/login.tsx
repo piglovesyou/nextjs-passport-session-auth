@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const Login = () => (
   <main>
@@ -7,6 +7,6 @@ const Login = () => (
       <a href="/api/auth/github">Sign in with github</a>
     </p>
   </main>
-)
+);
 
-export default Login
+export default Login;
