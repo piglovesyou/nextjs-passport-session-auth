@@ -1,5 +1,6 @@
 import { NextApiResponse, NextApiRequest } from 'next';
-import withPassport, { passport } from '../../../lib/withPassport';
+import passport from '../../../lib/passport';
+import withPassport from '../../../lib/withPassport';
 
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
   const { provider } = req.query;
