@@ -1,20 +1,19 @@
-import { NextApiResponse, NextApiRequest } from 'next';
+import cookieSession from 'cookie-session';
 import passport from '../../../../lib/passport';
-import withPassport from '../../../../lib/withPassport';
+import { compose } from '../../../../lib/compose-middlewares';
+// import compose from '../../../../lib/passport-middlewares';
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { provider } = req.query;
-  if (!provider) {
-    return { statusCode: 404 };
-  }
-
-  passport.authenticate(provider, {
+export default compose(
+  passport.authenticate('github', {
     failureRedirect: '/auth',
     successRedirect: '/',
-  })(req, res, (...args) => {
-    console.log('auth callback', args);
-    return true;
-  });
-};
-
-export default withPassport(handler);
+  }),
+  passport.session(),
+  passport.initialize(),
+  cookieSession({
+    name: 'passportSession',
+    signed: false,
+    // domain: url.parse(req.url).host,
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+  }),
+)();

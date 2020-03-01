@@ -1,10 +1,8 @@
 import cookieSession from 'cookie-session';
-import passport from '../../../lib/passport';
-import { compose } from '../../../lib/compose-middlewares';
-// import compose from '../../../lib/passport-middlewares';
+import { compose } from './compose-middlewares';
+import passport from './passport';
 
 export default compose(
-  passport.authenticate('github'),
   passport.session(),
   passport.initialize(),
   cookieSession({
@@ -13,4 +11,4 @@ export default compose(
     // domain: url.parse(req.url).host,
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
   }),
-)();
+);
