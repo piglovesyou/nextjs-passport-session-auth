@@ -145,8 +145,6 @@ export default function createHandler(...middlewares: Handler[]) {
       console.error(e);
       throw new Error('Error occurs during express middlewares processing');
     }
-
-    console.log('yeah');
   };
 
   return handler;
@@ -156,11 +154,9 @@ export const compose: TCompose = (...handlers) => {
   if (!handlers.length) throw new Error('boom');
 
   const f: TCompose = (...args) => {
-    handlers.unshift(...args);
-
     if (args.length) {
       // Use .call for typecheck
-      return compose.call(this, ...handlers);
+      return compose.call(this, ...args, ...handlers);
     }
 
     return createHandler(...handlers);
