@@ -74,7 +74,7 @@ function getProxyGetter(
   disposor: Record<any, any>,
   expressProto: typeof expressReqProto | typeof expressResProto,
 ) {
-  return function proxyGetter(target, property, _receiver) {
+  return function proxyGetter(target, property /*_receiver*/) {
     let obj: any;
 
     if (Reflect.has(disposor, property)) {
@@ -83,7 +83,7 @@ function getProxyGetter(
     } else if (Reflect.has(target, property)) {
       // Access to the original http.IncomingMessage
       obj = target;
-    } else if (expressProto.hasOwnProperty(property)) {
+    } else if (Reflect.has(expressProto, property)) {
       // Access to express API.
 
       obj = expressProto;
@@ -159,8 +159,8 @@ export const compose: TCompose = (...handlers) => {
     handlers.unshift(...args);
 
     if (args.length) {
-      // Use .apply for typecheck
-      return compose.apply(null, handlers);
+      // Use .call for typecheck
+      return compose.call(this, ...handlers);
     }
 
     return createHandler(...handlers);
