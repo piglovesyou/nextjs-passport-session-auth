@@ -9,7 +9,10 @@ import { promisify } from 'util';
 // import {init as getExpressInitializer} from 'express/lib/middleware/init';
 // const expressInit = getExpressInitializer(express());
 
-type THandler = (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
+type THandler<TReqExt = any, TResExt = any> = (
+  req: NextApiRequest,
+  res: NextApiResponse,
+) => Promise<[TReqExt, TResExt]>;
 
 interface TCompose {
   (): Handler;
@@ -111,12 +114,14 @@ function getProxySetter(disposor: Record<any, any>) {
   };
 }
 
-export default function createHandler(...middlewares: Handler[]) {
+export default function createHandler<TReqExt = any, TResExt = any>(
+  ...middlewares: Handler[]
+) {
   const promisifiedMiddlewares = middlewares.map(m => promisify<any, any>(m));
 
-  const handler: THandler = async (req, res) => {
-    const reqDisposor = {};
-    const resDisposor = {};
+  const handler: THandler<TReqExt, TResExt> = async (req, res) => {
+    const reqDisposor = {} as TReqExt;
+    const resDisposor = {} as TResExt;
 
     // Wrap req and res
     const wrappedReq = new Proxy(req, {
@@ -145,6 +150,8 @@ export default function createHandler(...middlewares: Handler[]) {
       console.error(e);
       throw new Error('Error occurs during express middlewares processing');
     }
+
+    return [reqDisposor, resDisposor];
   };
 
   return handler;
