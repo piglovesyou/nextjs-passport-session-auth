@@ -10,7 +10,7 @@ const middlewares = compose(
   cookieSession(),
 );
 
-export default async function handler(req: any, res: any) {
+export async function handler(req: any, res: any) {
   // Run Express middlewares without polluting req and res💫
   const [reqExtra] = await middlewares(req, res);
 
@@ -21,7 +21,7 @@ export default async function handler(req: any, res: any) {
 
 // How about making a common middleware decorator?
 
-export default function withPassport(handle) {
+export function withPassport(handle) {
   return async function h(req, res) {
     await middlewares(req, res);
 
